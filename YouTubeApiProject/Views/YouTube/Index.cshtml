@@ -1,0 +1,110 @@
+﻿@model List<YouTubeApiProject.Models.YouTubeVideoModel>
+
+
+<h2>Search YouTube Videos</h2>
+
+
+
+<form asp-action="Search" class="d-flex" method="post">
+    <input class="form-control me-sm-2" type="search" name="query" placeholder="Search for videos..." required />
+
+    <!-- Video Duration Filter -->
+    <select class="btn btn-primary" name="duration">
+        <option value="">Any Duration</option>
+        <option value="short">Short (&lt; 4 min)</option>
+        <option value="medium">Medium (4-20 min)</option>
+        <option value="long">Long (&gt; 20 min)</option>
+    </select>
+
+    <!-- Upload Date Filter -->
+    <select class="btn btn-primary" name="uploadDate">
+        <option value="">Any Upload Date</option>
+        <option value="today">Today</option>
+        <option value="this_week">This Week</option>
+        <option value="this_month">This Month</option>
+    </select>
+
+    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+</form>
+
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Always 3 videos in a row */
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .card {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        overflow: hidden;
+        background: #fff;
+        transition: 0.3s;
+        width: 100%;
+        max-width: 280px;
+        margin: auto;
+        text-align: center;
+    }
+
+        .card:hover {
+            transform: scale(1.03);
+        }
+
+        .card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+        }
+
+        .card h3 {
+            font-size: 12px;
+            margin: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .card p {
+            font-size: 12px;
+            margin: 8px;
+            color: #555;
+        }
+
+        .card button {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            background: #FF1493;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+            .card button:hover {
+                opacity: 0.8;
+            }
+</style>
+
+@if (Model != null && Model.Any())
+{
+
+    <p>Data Found: @Model.Count videos</p> <!-- Debugging -->
+    <div class="grid-container">
+        @foreach (var video in Model)
+        {
+            <div class="card">
+                <img src="@video.ThumbnailUrl" alt="Thumbnail">
+                <h3>@video.Title</h3>
+                <p>@video.Description</p>
+                <a href="@video.VideoUrl" target="_blank">
+                    <button type="button" class="btn btn-secondary">Watch</button>
+                </a>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>No results found.</p>
+}
+
