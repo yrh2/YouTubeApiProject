@@ -1,8 +1,14 @@
-﻿@model List<YouTubeApiProject.Models.YouTubeVideoModel>
+@model List<YouTubeApiProject.Models.YouTubeVideoModel>
 
 
 <h2>Search YouTube Videos</h2>
 
+@if (TempData["ErrorMessage"] != null) // Display error message if any
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
 
 
 <form asp-action="Search" class="d-flex" method="post">
@@ -103,8 +109,8 @@
         }
     </div>
 }
-else
+else if (TempData["ErrorMessage"] == null) // Display message if no results found
 {
-    <p>No results found.</p>
+    <p class="text-muted">No results found.</p>
 }
 
